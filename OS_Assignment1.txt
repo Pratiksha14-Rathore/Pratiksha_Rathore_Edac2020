@@ -1,0 +1,126 @@
+1--
+date Mon Sep  7 09:20:40 PDT 2020 date +%Y 2020 
+ 
+date +%y 20 
+ 
+date +%T 09:21:07 
+ 
+date +%b Sep 
+ 
+date +%B September 
+ 
+cal 
+ 
+cal -m1 
+ 
+cal jan 
+ 
+cal 2022 
+ 
+cal 2022 -m1 
+
+
+2---
+A)
+mkdir a b c 
+cd a 
+touch a.txt b.txt c.txt 
+cd b 
+touch a.txt b.txt c.txt 
+cd c 
+touch a.txt b.txt c.txt 
+
+B)
+mv b c 
+
+D)
+mv a cdac
+
+3---
+a)cat>file1.txt "Hello"  
+
+cat>file2.txt "Hello Mumbai"  
+ 
+cat>file3.txt "Hello Cdac"  
+ 
+cat>file4.txt "Helllo Prtaiksha"  
+ 
+cat>file5.txt "Hello cdac Family"  
+
+grep -i "s" file.txt
+ 
+c)touch a.txt b.txt c.txt d.txt e.txt
+d)rm -r a  rm -r b c 
+ 
+4-----
+vi fiel.txt 
+ 
+a)cat -n file.txt 
+
+b)cat -b file.txt 
+ 
+c)tac file.txt 
+  
+d)cat file1.txt>>file4.txt
+
+
+5---
+touch file1.txt
+b)sort file1.txt
+
+c)ls -a
+d)la -A
+
+6---
+sort file1.txt 
+ 
+ls -a ls -A 
+ 
+e) ls -r ls -t ls-rt 
+
+============================
+
+question1--
+mkdir pratiksha
+touch a.txt b.txt c.txt d.txt 
+ 
+a)chmod +rw a.txt b.txt 
+
+b)chmod +w c.txt 
+ 
+c)cat>d.hs #/bin/sh 
+ 
+d)chmod +x d.sh 
+ 
+Q2 chmod +x pratiksha
+
+que3)
+chmod -x pratiksha chmod -r pratiksha
+
+Q4) echo $(file.txt) 
+ 
+Q5) echo>>"HELLO CDAC" >> file.txt 
+-----------------------------------------
+
+Q1) mkdir a cd a mkdir b cd b mkdir c 
+ 
+touch file.txt 
+ 
+cp c a 
+ 
+cp a b 
+
+Q2) chmod +r c cp a c 
+ 
+cd b mkdir data 
+ 
+chmod +rw b 
+ 
+cd b touch data.txt 
+
+ mv c copied_dir 
+ 
+chmod +x copied_dir 
+ 
+cd copied_dir ls 
+  
