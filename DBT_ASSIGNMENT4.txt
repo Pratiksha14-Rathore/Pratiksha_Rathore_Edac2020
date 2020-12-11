@@ -1,0 +1,335 @@
+================ASSIGNMENT 4============
+
+USE ASSIGNMENT4;
+Database changed
+mysql> SHOW TABLES;
+Empty set (0.01 sec)
+create table emp(emp_id int,emp_name varchar(20),job varchar(20),mgr int,hiredate date,sal int,comm int,dept_no int);
+Query OK, 0 rows affected (0.62 sec)
+
+mysql> desc emp;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_id   | int         | YES  |     | NULL    |       |
+| emp_name | varchar(20) | YES  |     | NULL    |       |
+| job      | varchar(20) | YES  |     | NULL    |       |
+| mgr      | int         | YES  |     | NULL    |       |
+| hiredate | date        | YES  |     | NULL    |       |
+| sal      | int         | YES  |     | NULL    |       |
+| comm     | int         | YES  |     | NULL    |       |
+| dept_no  | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.18 sec)
+insert into emp(emp_id,emp_name,job,hiredate,sal,comm,dept_no)values(1001,'shilpa','PTO','2006-11-01',50000,5000,10);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into emp(emp_id,emp_name,job,mgr,hiredate,sal,comm,dept_no)values(1002,'snehal','PE',1001,'2012-11-01',40000,4000,10);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into emp(emp_id,emp_name,job,mgr,hiredate,sal,comm,dept_no)values(1003,'aditya','PE',1001,'2016-02-10',40000,4000,20);
+Query OK, 1 row affected (0.06 sec)
+insert into emp(emp_id,emp_name,job,hiredate,sal,comm,dept_no)values(1004,'omkar','PE','2017-01-01',40000,4000,10);
+Query OK, 1 row affected (0.07 sec)
+insert into emp(emp_id,emp_name,job,hiredate,sal,comm,dept_no)values(1005,'rajeev','PTO','2019-01-01',30000,6000,20);
+Query OK, 1 row affected (0.10 sec)
+insert into emp(emp_id,emp_name,job,mgr,hiredate,sal,comm)values(1006,'sachin','TO',1001,'2008-05-01',32000,3200);
+Query OK, 1 row affected (0.07 sec)
+select * from emp;
++--------+----------+------+------+------------+-------+------+---------+
+| emp_no | emp_name | job  | mgr  | hiredate   | sal   | comm | dept_id |
++--------+----------+------+------+------------+-------+------+---------+
+|   1001 | shilpa   | PTO  | NULL | 2006-11-01 | 50000 | 5000 |      10 |
+|   1002 | snehal   | PE   | 1001 | 2012-11-01 | 40000 | 4000 |      10 |
+|   1003 | aditya   | PE   | 1001 | 2016-02-10 | 40000 | 4000 |      20 |
+|   1004 | omkar    | PE   | NULL | 2017-01-01 | 40000 | 4000 |      10 |
+|   1005 | rajeev   | PTO  | NULL | 2019-01-01 | 30000 | 6000 |      20 |
+|   1006 | sachin   | TO   | 1001 | 2008-05-01 | 32000 | 3200 |    NULL |
++--------+----------+------+------+------------+-------+------+---------+
+6 rows in set (0.00 sec)
+create table dept(dept_id int,dept_name varchar(20),loc varchar(20));
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id    | int         | YES  |     | NULL    |       |
+| dept_name | varchar(20) | YES  |     | NULL    |       |
+| loc       | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+insert into dept(dept_id,dept_name,loc)values(10,'SENG','JUHU');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into dept(dept_id,dept_name,loc)values(20,'ITSS','JUHU');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into dept(dept_id,dept_name,loc)values(30,'CNTE','JUHU');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into dept(dept_id,dept_name,loc)values(40,'ETU','KHARGHAR');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into dept(dept_id,dept_name,loc)values(50,'NETWORKING','PUNE');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into dept(dept_id,dept_name,loc)values(60,'DATABASE','MUMBAI');
+Query OK, 1 row affected (0.14 sec)
+SELECT * FROM DEPT;
++--------+------------+----------+
+| dept_id | dept_name  | loc      |
++--------+------------+----------+
+|     10 | SENG       | JUHU     |
+|     20 | ITSS       | JUHU     |
+|     30 | CNTE       | JUHU     |
+|     40 | ETU        | KHARGHAR |
+|     50 | NETWORKING | PUNE     |
+|     60 | DATABASE   | MUMBAI   |
++--------+------------+----------+
+6 rows in set (0.00 sec)
+
+1. select dept_name and emp_name where dept_id is same.
+
+select dept_name,emp_name from dept join emp on dept.dept_id=emp.dept_id;
++-----------+----------+
+| dept_name | emp_name |
++-----------+----------+
+| SENG      | shilpa   |
+| SENG      | snehal   |
+| ITSS      | aditya   |
+| SENG      | omkar    |
+| ITSS      | rajeev   |
++-----------+----------+
+5 rows in set (0.00 sec)
+==============================================
+2. select all from both tables where dept_id is same.
+
+select * from emp join dept on emp.dept_id=dept.dept_id;
++--------+----------+------+------+------------+-------+------+---------+---------+-----------+------+
+| emp_id | emp_name | job  | mgr  | hiredate   | sal   | comm | dept_id | dept_id | dept_name | loc  |
++--------+----------+------+------+------------+-------+------+---------+---------+-----------+------+
+|   1001 | shilpa   | PTO  | NULL | 2006-11-01 | 50000 | 5000 |      10 |      10 | SENG      | JUHU |
+|   1002 | snehal   | PE   | 1001 | 2012-11-01 | 40000 | 4000 |      10 |      10 | SENG      | JUHU |
+|   1004 | omkar    | PE   | NULL | 2017-01-01 | 40000 | 4000 |      10 |      10 | SENG      | JUHU |
+|   1003 | aditya   | PE   | 1001 | 2016-02-10 | 40000 | 4000 |      20 |      20 | ITSS      | JUHU |
+|   1005 | rajeev   | PTO  | NULL | 2019-01-01 | 30000 | 6000 |      20 |      20 | ITSS      | JUHU |
++--------+----------+------+------+------------+-------+------+---------+---------+-----------+------+
+5 rows in set (0.00 sec)
+==================================================
+3. select dept_id and sum of salary group it by dept_id.
+select emp.dept_id,sum(sal) from emp group by dept_id;
++---------+----------+
+| dept_no | sum(sal) |
++---------+----------+
+|      10 |   130000 |
+|      20 |    70000 |
+|    NULL |    32000 |
++---------+----------+
+3 rows in set (0.10 sec)
+=================================================
+4. select dept_name and emp_name apply right outer join and left outer join.
+right outer join-
+select emp_name,dept_name from emp right join dept on emp.dept_id=dept.dept_id;
++----------+------------+
+| emp_name | dept_name  |
++----------+------------+
+| shilpa   | SENG       |
+| snehal   | SENG       |
+| omkar    | SENG       |
+| aditya   | ITSS       |
+| rajeev   | ITSS       |
+| NULL     | CNTE       |
+| NULL     | ETU        |
+| NULL     | NETWORKING |
+| NULL     | DATABASE   |
++----------+------------+
+9 rows in set (0.00 sec)
+left outer join-
+select emp_name,dept_name from emp left join dept on emp.dept_id=dept.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| shilpa   | SENG      |
+| snehal   | SENG      |
+| aditya   | ITSS      |
+| omkar    | SENG      |
+| rajeev   | ITSS      |
+| sachin   | NULL      |
++----------+-----------+
+6 rows in set (0.00 sec)
+
+==================================================
+5. select emp_name with their respective manager names.
+====================================================
+6. select emp_name with their respective department names.
+select emp_name,dept_name from emp join dept on emp.dept_id=dept.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| shilpa   | SENG      |
+| snehal   | SENG      |
+| omkar    | SENG      |
+| aditya   | ITSS      |
+| rajeev   | ITSS      |
++----------+-----------+
+5 rows in set (0.00 sec)
+====================================================
+*************union****************
+	Emp1			Emp2
+emp_no     emp_name	emp_no     emp_name
+---------------------   ------------------------
+1		A		1		A
+2		B		2		B
+3		C		4		D
+				5		E
+
+1.	select same data from both table.
+insert into emp1(emp_no,emp_name)values(1,'A');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into emp1(emp_no,emp_name)values(2,'B');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into emp1(emp_no,emp_name)values(3,'c');
+Query OK, 1 row affected (0.01 sec)
+SELECT * FROM EMP1;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+|      1 | A        |
+|      2 | B        |
+|      3 | c        |
++--------+----------+
+3 rows in set (0.00 sec)
+
+create table emp2(emp_no int,emp_name varchar(20));
+Query OK, 0 rows affected (0.17 sec)
+insert into emp2(emp_no,emp_name)values(1,'A');
+Query OK, 1 row affected (0.28 sec)
+
+mysql> insert into emp2(emp_no,emp_name)values(2,'B');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into emp2(emp_no,emp_name)values(4,'D');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into emp2(emp_no,emp_name)values(5,'E');
+Query OK, 1 row affected (0.10 sec)
+
+SELECT * FROM EMP2;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+|      1 | A        |
+|      2 | B        |
+|      4 | D        |
+|      5 | E        |
++--------+----------+
+4 rows in set (0.00 sec)
+
+select * from emp1 UNION ALL select * from emp2;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+|      1 | A        |
+|      2 | B        |
+|      3 | c        |
+|      1 | A        |
+|      2 | B        |
+|      4 | D        |
+|      5 | E        |
++--------+----------+
+7 rows in set (0.04 sec)
+
+
+
+
+************subQuery*************
+1. select employee having  same salary as 'Arun'.
+
++-------+----------+------+------+------------+-------+--------+
+| empno | empname  | job  | mgr  | hiredate   | sal   | deptno |
++-------+----------+------+------+------------+-------+--------+
+|   101 | Sudhakar | PTO  | 1001 | 2006-11-01 | 50000 |     10 |
+|   102 | Amit     | PE   | NULL | 2012-11-01 | 40000 |     10 |
+|   103 | Supriya  | PE   | 1001 | 2016-02-10 | 40000 |     20 |
+|   104 | Mahesh   | TO   | 1001 | 2008-05-01 | 32000 |     30 |
+|   105 | Subhangi | PTO  | NULL | 2017-01-01 | 40000 |     20 |
+|   106 | Pradnya  | PE   | NULL | 2015-06-16 | 30000 |     20 |
+|  1001 | Rajat    | NULL | NULL | NULL       | 90000 |   NULL |
+|  1002 | Shubham  | PE   |  101 | NULL       | 46000 |     10 |
+|  1015 | Shubham  | PTO  | 1001 | NULL       | 96000 |     60 |
++-------+----------+------+------+------------+-------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select sal from emp where empno=102;
++-------+
+| sal   |
++-------+
+| 40000 |
++-------+
+1 row in set (0.00 sec)
+
+2. select employee belonging to same dept as 'jack'.
+3. select name of employee havin lowest salary.
+
+select * from emp;
++--------+----------+------+------+------------+-------+------+---------+
+| emp_no | emp_name | job  | mgr  | hiredate   | sal   | comm | dept_no |
++--------+----------+------+------+------------+-------+------+---------+
+|   1001 | shilpa   | PTO  | NULL | 2006-11-01 | 50000 | 5000 |      10 |
+|   1002 | snehal   | PE   | 1001 | 2012-11-01 | 40000 | 4000 |      10 |
+|   1003 | aditya   | PE   | 1001 | 2016-02-10 | 40000 | 4000 |      20 |
+|   1004 | omkar    | PE   | NULL | 2017-01-01 | 40000 | 4000 |      10 |
+|   1005 | rajeev   | PTO  | NULL | 2019-01-01 | 30000 | 6000 |      20 |
+|   1006 | sachin   | TO   | 1001 | 2008-05-01 | 32000 | 3200 |    NULL |
++--------+----------+------+------+------------+-------+------+---------+
+6 rows in set (0.48 sec)
+
+mysql> select emp_name from emp where sal=(select min(sal) from emp);
++----------+
+| emp_name |
++----------+
+| rajeev   |
++----------+
+1 row in set (0.08 sec)
+
+
+4. update salary =15000 of employees belonging to same dept as 'Max'.
+
+ select * from dept;
++---------+------------+----------+
+| dept_no | dept_name  | loc      |
++---------+------------+----------+
+|      10 | SENG       | JUHU     |
+|      20 | ITSS       | JUHU     |
+|      30 | CNTE       | JUHU     |
+|      40 | ETU        | KHARGHAR |
+|      50 | NETWORKING | PUNE     |
+|      60 | DATABASE   | MUMBAI   |
++---------+------------+----------+
+6 rows in set (0.28 sec)
+
+mysql> update emp set sal=15000 where dept_no=(select dept_no from dept where dept_name='ITSS');
+Query OK, 2 rows affected (0.80 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from dept;
++---------+------------+----------+
+| dept_no | dept_name  | loc      |
++---------+------------+----------+
+|      10 | SENG       | JUHU     |
+|      20 | ITSS       | JUHU     |
+|      30 | CNTE       | JUHU     |
+|      40 | ETU        | KHARGHAR |
+|      50 | NETWORKING | PUNE     |
+|      60 | DATABASE   | MUMBAI   |
++---------+------------+----------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
