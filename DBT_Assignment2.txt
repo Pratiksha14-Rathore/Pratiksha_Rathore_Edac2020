@@ -1,0 +1,506 @@
+create database Assignment2;
+use Assignment2;
+create table PUBLISHERS(Pubid int(3),Pname VARCHAR(30),Email VARCHAR(50) UNIQUE,Phone VARCHAR(30),constraint pk_PUBLISHERS PRIMARY KEY(Pubid));
+Query OK, 0 rows affected, 1 warning (0.21 sec)
+insert into  PUBLISHERS(Pubid,Pname,Email,Phone) values(1,'WILLEY','WDT@VSNL.NET','91-11-23260877');
+Query OK, 1 row affected (0.15 sec)
+insert into PUBLISHERS(Pubid,Pname,Email,Phone)values(1,'WILLEY','WDT@VSNL.NET','9111232');
+Query OK, 1 row affected (0.09 sec)
+
+insert into PUBLISHERS(Pubid,Pname,Email,Phone)values(2,'WROX','INFO@WROX.COM',NULL);
+Query OK, 1 row affected (0.08 sec)
+
+insert into PUBLISHERS(Pubid,Pname,Email,Phone)values(3,'TATA MCGRAW-HILL','FEEDBACK@TATAMCGRAWHILL.COM','9133333322');
+Query OK, 1 row affected (0.10 sec)
+
+insert into PUBLISHERS(Pubid,Pname,Email,Phone)values(4,'TECHMEDIA','BOOKS@TECHMEDIA.COM','9133257660');
+Query OK, 1 row affected (0.07 sec)
+select *from PUBLISHERS;
++-------+------------------+-----------------------------+------------+
+| Pubid | Pname            | Email                       | Phone      |
++-------+------------------+-----------------------------+------------+
+|     1 | WILLEY           | WDT@VSNL.NET                | 9111232    |
+|     2 | WROX             | INFO@WROX.COM               | NULL       |
+|     3 | TATA MCGRAW-HILL | FEEDBACK@TATAMCGRAWHILL.COM | 9133333322 |
+|     4 | TECHMEDIA        | BOOKS@TECHMEDIA.COM         | 9133257660 |
++-------+------------------+-----------------------------+------------+
+4 rows in set (0.03 sec)
+create table AUTHORS(Auid int(5),Aname VARCHAR(30), Email VARCHAR(50) UNIQUE, Phone VARCHAR(30),constraint pk_AUTHORS PRIMARY KEY(Auid));
+Query OK, 0 rows affected, 1 warning (0.47 sec)
+
+create table TITLEAUTHORS(Titleid int(5),Auid int(5), Importance int(2), PRIMARY KEY(Titleid,Auid),CONSTRAINT  TITLESAUTHORS_TITLEID_FK FOREIGN KEY (TITLEID) REFERENCES TITLES(TITLEID), CONSTRAINT TITLESAUTHORS_Auid_FK FOREIGN KEY (Auid) REFERENCES AUTHORS(Auid));
+Query OK, 0 rows affected, 3 warnings (0.59 sec)
+
+insert into AUTHORS(Auid,Aname,Email,Phone)values(101, 'HERBERT SCHILD','HERBERT@YAHOO.COM',NULL);
+Query OK, 1 row affected (0.13 sec)
+insert into AUTHORS(Auid,Aname,Email,Phone)values(103, 'DAVAID HUNTER','HUNTER@HOTMAIL.COM',NULL);
+Query OK, 1 row affected (0.07 sec)
+
+insert into AUTHORS(Auid,Aname,Email,Phone)values(104, 'STEPHEN WALTHER','WALTHER@GMAIL.COM',NULL);
+Query OK, 1 row affected (0.07 sec)
+
+insert into AUTHORS(Auid,Aname,Email,Phone)values(105, 'KEVIN LONEY','LONEY@ORACLE.COM',NULL);
+Query OK, 1 row affected (0.09 sec)
+
+insert into AUTHORS(Auid,Aname,Email,Phone)values(106, 'ED. ROMANS','ROMANS@THESERVERSIDE.COM',NULL);
+Query OK, 1 row affected (0.07 sec)
+select * from AUTHORS;
++------+-----------------+--------------------------+-------+
+| Auid | Aname           | Email                    | Phone |
++------+-----------------+--------------------------+-------+
+|  101 | HERBERT SCHILD  | HERBERT@YAHOO.COM        | NULL  |
+|  102 | JAMES GOODWILL  | GOODWILL@HOTMAIL.COM     | NULL  |
+|  103 | DAVAID HUNTER   | HUNTER@HOTMAIL.COM       | NULL  |
+|  104 | STEPHEN WALTHER | WALTHER@GMAIL.COM        | NULL  |
+|  105 | KEVIN LONEY     | LONEY@ORACLE.COM         | NULL  |
+|  106 | ED. ROMANS      | ROMANS@THESERVERSIDE.COM | NULL  |
++------+-----------------+--------------------------+-------+
+6 rows in set (0.00 sec)
+create table SUBJECTS(Subid VARCHAR(5) PRIMARY KEY,Sname VARCHAR(30));
+Query OK, 0 rows affected (0.43 sec)
+insert into SUBJECTS(Subid,Sname)VALUES('ORA','ORACLE DATABASE 10g');
+Query OK, 1 row affected (0.14 sec)
+insert into SUBJECTS(Subid,Sname)VALUES ('JAVA','JAVA LANGUAGE');
+Query OK, 1 row affected (0.08 sec)
+
+insert into SUBJECTS(Subid,Sname)VALUES ('JEE','JAVA ENTEPRISE EDITION');
+Query OK, 1 row affected (0.07 sec)
+
+insert into SUBJECTS(Subid,Sname)VALUES ('VB','VISUAL BASIC.NET');
+Query OK, 1 row affected (0.15 sec)
+
+insert into SUBJECTS(Subid,Sname)VALUES ('ASP','ASP.NET');
+Query OK, 1 row affected (0.07 sec)
+select * from SUBJECTS;
++-------+------------------------+
+| Subid | Sname                  |
++-------+------------------------+
+| ASP   | ASP.NET                |
+| JAVA  | JAVA LANGUAGE          |
+| JEE   | JAVA ENTEPRISE EDITION |
+| ORA   | ORACLE DATABASE 10g    |
+| VB    | VISUAL BASIC.NET       |
++-------+------------------------+
+5 rows in set (0.00 sec)
+create table TITLES(TITLEID int(5) PRIMARY KEY,TITLE VARCHAR(30),PUBID int(3), SUBID VARCHAR(5), PUBDATE DATE, COVER CHAR(1) CHECK ( COVER IN ('P','H','p','h')),PRICE int(4),CONSTRAINT TITLES_PUBID_FK FOREIGN KEY (PUBID) REFERENCES PUBLISHERS(PUBID),CONSTRAINT TITLES_SUBID_FK FOREIGN KEY (SUBID) REFERENCES SUBJECTS(SUBID));
+Query OK, 0 rows affected, 3 warnings (0.63 sec)
+
+mysql> desc TITLES;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| TITLEID | int         | NO   | PRI | NULL    |       |
+| TITLE   | varchar(30) | YES  |     | NULL    |       |
+| PUBID   | int         | YES  | MUL | NULL    |       |
+| SUBID   | varchar(5)  | YES  | MUL | NULL    |       |
+| PUBDATE | date        | YES  |     | NULL    |       |
+| COVER   | char(1)     | YES  |     | NULL    |       |
+| PRICE   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+7 rows in set (0.40 sec)
+insert into TITLES (TITLEID,TITLE,PUBID,SUBID,PUBDATE,COVER,PRICE)VALUES (1001,'ASP.NET UNLEASHED',4,'ASP','2002-04-12','P',540);
+Query OK, 1 row affected (0.12 sec)
+insert into TITLES (TITLEID,TITLE,PUBID,SUBID,PUBDATE,COVER,PRICE)VALUES (1002,'ORACLE10G COMP. REF.',3,'ORA','2005-01-04','P',575);
+Query OK, 1 row affected (0.07 sec)
+
+insert into TITLES (TITLEID,TITLE,PUBID,SUBID,PUBDATE,COVER,PRICE)VALUES (1003,'MASTERING EJB',1,'JEE','2005-03-02','P',475);
+Query OK, 1 row affected (0.07 sec)
+
+insert into TITLES (TITLEID,TITLE,PUBID,SUBID,PUBDATE,COVER,PRICE)VALUES (1004,'JAVA COMP. REF',3,'JAVA','2005-03-04','P',499);
+Query OK, 1 row affected (0.06 sec)
+insert into TITLES (TITLEID,TITLE,PUBID,SUBID,PUBDATE,COVER,PRICE)VALUES (1005,'PRO. VB.NET',2,'VB','2005-06-15','P',450);
+Query OK, 1 row affected (0.07 sec)
+select * from TITLES;
++---------+----------------------+-------+-------+------------+-------+-------+
+| TITLEID | TITLE                | PUBID | SUBID | PUBDATE    | COVER | PRICE |
++---------+----------------------+-------+-------+------------+-------+-------+
+|    1001 | ASP.NET UNLEASHED    |     4 | ASP   | 2002-04-12 | P     |   540 |
+|    1002 | ORACLE10G COMP. REF. |     3 | ORA   | 2005-01-04 | P     |   575 |
+|    1003 | MASTERING EJB        |     1 | JEE   | 2005-03-02 | P     |   475 |
+|    1004 | JAVA COMP. REF       |     3 | JAVA  | 2005-03-04 | P     |   499 |
+|    1005 | PRO. VB.NET          |     2 | VB    | 2005-06-15 | P     |   450 |
++---------+----------------------+-------+-------+------------+-------+-------+
+5 rows in set (0.13 sec)
+ desc TITLEAUTHORS;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| Titleid    | int  | NO   | PRI | NULL    |       |
+| Auid       | int  | NO   | PRI | NULL    |       |
+| Importance | int  | YES  |     | NULL    |       |
++------------+------+------+-----+---------+-------+
+3 rows in set (0.04 sec)
+insert into TITLEAUTHORS (Titleid,Auid,Importance)VALUES (1001,104,1);
+Query OK, 1 row affected (0.10 sec)
+insert into TITLEAUTHORS (Titleid,Auid,Importance)VALUES (1002,105,1);
+Query OK, 1 row affected (0.04 sec)
+
+insert into TITLEAUTHORS (Titleid,Auid,Importance)VALUES (1003,106,1);
+Query OK, 1 row affected (0.10 sec)
+
+insert into TITLEAUTHORS (Titleid,Auid,Importance)VALUES (1004,101,1);
+Query OK, 1 row affected (0.13 sec)
+
+insert into TITLEAUTHORS (Titleid,Auid,Importance)VALUES (1005,103,1);
+Query OK, 1 row affected (0.01 sec)
+
+insert into TITLEAUTHORS (Titleid,Auid,Importance)VALUES (1005,102,2);
+Query OK, 1 row affected (0.12 sec)
+select * from TITLEAUTHORS;
++---------+------+------------+
+| Titleid | Auid | Importance |
++---------+------+------------+
+|    1001 |  104 |          1 |
+|    1002 |  105 |          1 |
+|    1003 |  106 |          1 |
+|    1004 |  101 |          1 |
+|    1005 |  102 |          2 |
+|    1005 |  103 |          1 |
++---------+------+------------+
+6 rows in set (0.00 sec)
+===================\\
+1. select subject name "oracle" from subjects table.
+select Sname from SUBJECTS where sname='ORACLE DATABASE 10g';
++---------------------+
+| Sname               |
++---------------------+
+| ORACLE DATABASE 10g |
++---------------------+
+1 row in set (0.24 sec)
+=============================
+2. select subject name starts whith 'j'.
+ select * from SUBJECTS where Sname LIKE 'j%';
++-------+------------------------+
+| Subid | Sname                  |
++-------+------------------------+
+| JAVA  | JAVA LANGUAGE          |
+| JEE   | JAVA ENTEPRISE EDITION |
++-------+------------------------+
+2 rows in set (0.00 sec)
+================================
+3.select subject name which contains ".net"
+select * from SUBJECTS where Sname='ASP.NET';
++-------+---------+
+| Subid | Sname   |
++-------+---------+
+| ASP   | ASP.NET |
++-------+---------+
+1 row in set (0.00 sec)
+==================================
+4.select author name ends whith 'er'.
+select * from AUTHORS where Aname LIKE '%er';
++------+-----------------+--------------------+-------+
+| Auid | Aname           | Email              | Phone |
++------+-----------------+--------------------+-------+
+|  103 | DAVAID HUNTER   | HUNTER@HOTMAIL.COM | NULL  |
+|  104 | STEPHEN WALTHER | WALTHER@GMAIL.COM  | NULL  |
++------+-----------------+--------------------+-------+
+2 rows in set (0.06 sec)
+=======================
+5.select publishers name which contains "hill".
+select * from PUBLISHERS where Pname='TATA MCGRAW-HILL';
++-------+------------------+-----------------------------+------------+
+| Pubid | Pname            | Email                       | Phone      |
++-------+------------------+-----------------------------+------------+
+|     3 | TATA MCGRAW-HILL | FEEDBACK@TATAMCGRAWHILL.COM | 9133333322 |
++-------+------------------+-----------------------------+------------+
+1 row in set (0.05 sec)
+============================
+//relational operator
+1. select title from title table having price less than 500.
+select * from titles where PRICE < 500;
++---------+----------------+-------+-------+------------+-------+-------+
+| TITLEID | TITLE          | PUBID | SUBID | PUBDATE    | COVER | PRICE |
++---------+----------------+-------+-------+------------+-------+-------+
+|    1003 | MASTERING EJB  |     1 | JEE   | 2005-03-02 | P     |   475 |
+|    1004 | JAVA COMP. REF |     3 | JAVA  | 2005-03-04 | P     |   499 |
+|    1005 | PRO. VB.NET    |     2 | VB    | 2005-06-15 | P     |   450 |
++---------+----------------+-------+-------+------------+-------+-------+
+3 rows in set (0.06 sec)
+========================================
+2.select title from title table published before '3 april'.
+============================================
+3. select subject name from subject having id as 'java' or 'jee'.
+select sname from subjects where subid='JAVA' and subid='JEE';
+Empty set (0.00 sec)
+===========================================
+4. select author name from author table id greater than '103'.
+
+mysql> select * from authors;
++------+-----------------+--------------------------+-------+
+| Auid | Aname           | Email                    | Phone |
++------+-----------------+--------------------------+-------+
+|  101 | HERBERT SCHILD  | HERBERT@YAHOO.COM        | NULL  |
+|  102 | JAMES GOODWILL  | GOODWILL@HOTMAIL.COM     | NULL  |
+|  103 | DAVAID HUNTER   | HUNTER@HOTMAIL.COM       | NULL  |
+|  104 | STEPHEN WALTHER | WALTHER@GMAIL.COM        | NULL  |
+|  105 | KEVIN LONEY     | LONEY@ORACLE.COM         | NULL  |
+|  106 | ED. ROMANS      | ROMANS@THESERVERSIDE.COM | NULL  |
++------+-----------------+--------------------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select Aname from authors where Auid>103;
++-----------------+
+| Aname           |
++-----------------+
+| STEPHEN WALTHER |
+| KEVIN LONEY     |
+| ED. ROMANS      |
++-----------------+
+3 rows in set (0.07 sec)
+==========================================================
+5. select all from title having titleid as 101 or price > 400.
+
+**********************(IN operator)*************************
+6.select all from publishers table  where publisher name is ('TECHMEDIA', 'WROX');
+ select * from publishers where Pname IN('TECHMEDIA', 'WROX');
++-------+-----------+---------------------+------------+
+| Pubid | Pname     | Email               | Phone      |
++-------+-----------+---------------------+------------+
+|     2 | WROX      | INFO@WROX.COM       | NULL       |
+|     4 | TECHMEDIA | BOOKS@TECHMEDIA.COM | 9133257660 |
++-------+-----------+---------------------+------------+
+2 rows in set (0.00 sec)
+******************(aggregate function)**********************
+1. select maximum price from titles table.
+select * from titles;
++---------+----------------------+-------+-------+------------+-------+-------+
+| TITLEID | TITLE                | PUBID | SUBID | PUBDATE    | COVER | PRICE |
++---------+----------------------+-------+-------+------------+-------+-------+
+|    1001 | ASP.NET UNLEASHED    |     4 | ASP   | 2002-04-12 | P     |   540 |
+|    1002 | ORACLE10G COMP. REF. |     3 | ORA   | 2005-01-04 | P     |   575 |
+|    1003 | MASTERING EJB        |     1 | JEE   | 2005-03-02 | P     |   475 |
+|    1004 | JAVA COMP. REF       |     3 | JAVA  | 2005-03-04 | P     |   499 |
+|    1005 | PRO. VB.NET          |     2 | VB    | 2005-06-15 | P     |   450 |
++---------+----------------------+-------+-------+------------+-------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select MAX(PRICE) highest_price from titles;
++---------------+
+| highest_price |
++---------------+
+|           575 |
++---------------+
+1 row in set (0.12 sec)
+==========================================================
+2. select average importance from titleauthors.
+select * from titleauthors;
++---------+------+------------+
+| Titleid | Auid | Importance |
++---------+------+------------+
+|    1001 |  104 |          1 |
+|    1002 |  105 |          1 |
+|    1003 |  106 |          1 |
+|    1004 |  101 |          1 |
+|    1005 |  102 |          2 |
+|    1005 |  103 |          1 |
++---------+------+------------+
+6 rows in set (0.02 sec)
+
+mysql> select AVG(Importance) from titleauthors;
++-----------------+
+| AVG(Importance) |
++-----------------+
+|          1.1667 |
++-----------------+
+1 row in set (0.06 sec)
+=================================================
+3. select number of records from author table.
+
+mysql> select * from authors;
++------+-----------------+--------------------------+-------+
+| Auid | Aname           | Email                    | Phone |
++------+-----------------+--------------------------+-------+
+|  101 | HERBERT SCHILD  | HERBERT@YAHOO.COM        | NULL  |
+|  102 | JAMES GOODWILL  | GOODWILL@HOTMAIL.COM     | NULL  |
+|  103 | DAVAID HUNTER   | HUNTER@HOTMAIL.COM       | NULL  |
+|  104 | STEPHEN WALTHER | WALTHER@GMAIL.COM        | NULL  |
+|  105 | KEVIN LONEY     | LONEY@ORACLE.COM         | NULL  |
+|  106 | ED. ROMANS      | ROMANS@THESERVERSIDE.COM | NULL  |
++------+-----------------+--------------------------+-------+
+6 rows in set (0.08 sec)
+
+mysql> select COUNT(*) from authors;
++----------+
+| COUNT(*) |
++----------+
+|        6 |
++----------+
+1 row in set (0.16 sec)
+===============================================
+4. select sum of prices of all books.
+
+
+**********************(DML)*******************************
+create table Employee with emp_id (number),emp_name(char(50)) and insert some value.
+1. Add one column name 'dept_id ' in table name 'Employee';
+2. Change the datatype of column 'char' from tablename 'Employee' to 'varchar2'.
+3. update name of employee to 'Scott'
+4. truncate the table.
+
+create table Employee(emp_id int,emp_name char(50));
+Query OK, 0 rows affected (0.38 sec)
+
+mysql> desc Employee;
++----------+----------+------+-----+---------+-------+
+| Field    | Type     | Null | Key | Default | Extra |
++----------+----------+------+-----+---------+-------+
+| emp_id   | int      | YES  |     | NULL    |       |
+| emp_name | char(50) | YES  |     | NULL    |       |
++----------+----------+------+-----+---------+-------+
+2 rows in set (0.18 sec)
+
+mysql> insert into Employee(emp_id,emp_name)values(1,'Pratiksha');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into Employee(emp_id,emp_name)values(2,'Rohit');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee(emp_id,emp_name)values(3,'Roshni');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee(emp_id,emp_name)values(4,'vaishali');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Employee(emp_id,emp_name)values(5,'Deepali');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Employee;
++--------+-----------+
+| emp_id | emp_name  |
++--------+-----------+
+|      1 | Pratiksha |
+|      2 | Rohit     |
+|      3 | Roshni    |
+|      4 | vaishali  |
+|      5 | Deepali   |
++--------+-----------+
+5 rows in set (0.00 sec)
+1. Add one column name 'dept_id ' in table name 'Employee';
+alter table Employee add dept_id int(10);
+Query OK, 0 rows affected, 1 warning (0.43 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+select * from Employee;
++--------+-----------+---------+
+| emp_id | emp_name  | dept_id |
++--------+-----------+---------+
+|      1 | Pratiksha |    NULL |
+|      2 | Rohit     |    NULL |
+|      3 | Roshni    |    NULL |
+|      4 | vaishali  |    NULL |
+|      5 | Deepali   |    NULL |
++--------+-----------+---------+
+5 rows in set (0.02 sec)
+===========================================================
+2. Change the datatype of column 'char' from tablename 'Employee' to 'varchar2'.
+desc employee;
++----------+----------+------+-----+---------+-------+
+| Field    | Type     | Null | Key | Default | Extra |
++----------+----------+------+-----+---------+-------+
+| emp_id   | int      | YES  |     | NULL    |       |
+| emp_name | char(50) | YES  |     | NULL    |       |
+| dept_id  | int      | YES  |     | NULL    |       |
++----------+----------+------+-----+---------+-------+
+3 rows in set (0.22 sec)
+alter table employee modify column emp_name varchar(20);
+Query OK, 5 rows affected (1.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_id   | int         | YES  |     | NULL    |       |
+| emp_name | varchar(20) | YES  |     | NULL    |       |
+| dept_id  | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+===================================================================
+
+3. update name of employee to 'Scott'
+
+select * from employee;
++--------+-----------+---------+
+| emp_id | emp_name  | dept_id |
++--------+-----------+---------+
+|      1 | Pratiksha |    NULL |
+|      2 | Rohit     |    NULL |
+|      3 | Roshni    |    NULL |
+|      4 | vaishali  |    NULL |
+|      5 | Deepali   |    NULL |
++--------+-----------+---------+
+5 rows in set (0.00 sec)
+
+update employee set emp_name='Scott' where emp_id=2;
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+select * from employee;
++--------+-----------+---------+
+| emp_id | emp_name  | dept_id |
++--------+-----------+---------+
+|      1 | Pratiksha |    NULL |
+|      2 | Scott     |    NULL |
+|      3 | Roshni    |    NULL |
+|      4 | vaishali  |    NULL |
+|      5 | Deepali   |    NULL |
++--------+-----------+---------+
+5 rows in set (0.09 sec)
+=================================================
+4. truncate the table.
+select * from employee;
++--------+-----------+---------+
+| emp_id | emp_name  | dept_id |
++--------+-----------+---------+
+|      1 | Pratiksha |    NULL |
+|      2 | Scott     |    NULL |
+|      3 | Roshni    |    NULL |
+|      4 | vaishali  |    NULL |
+|      5 | Deepali   |    NULL |
++--------+-----------+---------+
+5 rows in set (0.00 sec)
+
+truncate table employee;
+Query OK, 0 rows affected (0.46 sec)
+select * from employee;
+Empty set (0.12 sec)
+=======================================================
+*****************************Date************************
+1.select title from title table where month is 'Apr'.
+select * from titles;
++---------+----------------------+-------+-------+------------+-------+-------+
+| TITLEID | TITLE                | PUBID | SUBID | PUBDATE    | COVER | PRICE |
++---------+----------------------+-------+-------+------------+-------+-------+
+|    1001 | ASP.NET UNLEASHED    |     4 | ASP   | 2002-04-12 | P     |   540 |
+|    1002 | ORACLE10G COMP. REF. |     3 | ORA   | 2005-01-04 | P     |   575 |
+|    1003 | MASTERING EJB        |     1 | JEE   | 2005-03-02 | P     |   475 |
+|    1004 | JAVA COMP. REF       |     3 | JAVA  | 2005-03-04 | P     |   499 |
+|    1005 | PRO. VB.NET          |     2 | VB    | 2005-06-15 | P     |   450 |
++---------+----------------------+-------+-------+------------+-------+-------+
+5 rows in set (0.00 sec)
+
+select TITLE from titles where month(PUBDATE)=4;
++-------------------+
+| TITLE             |
++-------------------+
+| ASP.NET UNLEASHED |
++-------------------+
+1 row in set (0.06 sec)
+=========================================================
+2.select year from system date.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
