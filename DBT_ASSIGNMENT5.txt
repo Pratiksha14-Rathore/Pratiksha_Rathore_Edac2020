@@ -1,0 +1,145 @@
+***************************DBT ASSIGNMENT5******************************************
+1.Write a Procedure that accepts values of two non-zero numbers using IN parameter and perform addition, subtraction, multiplication, division and print.
+create database ASSIGNMENT5
+use ASSIGNMENT5;
+create table EMP(EMPNO numeric(4) not null, ENAME varchar(30) not null, JOB varchar(10), MGR numeric(4), HIREDATE date, SAL numeric(7,2), DEPTNO numeric(2) );
+Insert into EMP (EMPNO ,ENAME, JOB, MGR, HIREDATE, SAL, DEPTNO ) values(1000,  'Manish' , 'SALESMAN', 1003,  '2020-02-18', 600,  30) ;
+Insert into EMP (EMPNO ,ENAME, JOB, MGR, HIREDATE, SAL, DEPTNO ) values(1001,  'Manoj' , 'SALESMAN', 1003,  '2018-02-18', 600,  30) ;
+Insert into EMP (EMPNO ,ENAME, JOB, MGR, HIREDATE, SAL, DEPTNO ) values(1002 , 'Ashish', 'SALESMAN',1003 , '2013-02-18',  750,  30 );
+Insert into EMP (EMPNO ,ENAME, JOB, MGR, HIREDATE, SAL, DEPTNO ) values(1004,  'Rekha', 'ANALYST', 1006 , '2001-02-18', 3000,  10);
+Insert into EMP (EMPNO ,ENAME, JOB, MGR, HIREDATE, SAL, DEPTNO ) values(1005 , 'Sachin', 'ANALYST', 1006 ,  '2019-02-18', 3000, 10 );
+Insert into EMP (EMPNO ,ENAME, JOB, MGR, HIREDATE, SAL, DEPTNO ) values(1006,  'Pooja',  'MANAGER'  ,     null    , '2000-02-18' ,6000, 10 );
+DESC EMP;
+SELECT * FROM EMP;
+Create table dept (dno numeric(4) not null, dname varchar(10) not null,area varchar(30));
+Insert into dept(dno,dname,area) values(10,'Store','Mumbai');
+Insert into dept(dno,dname,area) values(20,'Purchase','Mumbai');
+Insert into dept(dno,dname,area) values(30,'Store', 'Delhi');
+Insert into dept(dno,dname,area) values(40,'Marketing','Pune');
+Insert into dept(dno,dname,area) values(50,'Finance','Delhi');
+Insert into dept(dno,dname,area) values(60,'Accounts','Mumbai');
+select * from dept;
+
+delimiter $$
+create procedure que1_In9(IN a int,IN b int,IN  c int)
+BEGIN
+DECLARE  a int default 2;
+DECLARE b int default 3;
+DECLARE c int;
+SET c=a+b;
+select 'a+b=',c;
+SET c=a-b;
+select 'a-b=',c;
+SET c=a*b;
+select 'a*b=',c;
+SET c=a/b;
+select 'a/b=',c;
+END $$
+call que1_In9(1,2,4);
+*******************************************************************************************************************
+2.Write a Procedure to print the string in REVERSE order. Take the input using IN parameter. (Ex .Database , o/p :esabatad)
+query-
+delimiter $$
+create procedure restringp(in var varchar(20))
+begin
+select reverse(var) as rever_sestring_value;
+end$$
+call restringp('Database');
+*****************************************************************************************************************
+3.Write a Procedure to display top 5 employee based on highest salary and display employee number,employee name and salary.
+
+create procedure Highest_sal2()
+BEGIN
+select empno,ename,sal from Emp order by sal desc limit 5;
+END $$
+show create procedure Highest_sal2();
+call Highest_sal2();
+delimiter $$
+
+*********************************************************************************************************************
+4.Write a Procedure to create table emp_test with e_id integer, e_name varchar(10), e_joining_date date as columns.
+delimeter $$
+Create Procedure ctablee()
+BEGIN
+CREATE TABLE emp_test(e_id INT , e_name varchar(10));
+END $$
+call ctablee();
+*********************************************************************************************************
+5.Write a Procedure to add a department row in the DEPT table with the following values for columns
+deptno  vaue 60,Dname  value should be  ‘Education’, area value should be Pune. 
+
+delimiter $$
+create procedure que5()
+BEGIN
+insert into dept(dno,dname,area) values (60,'Education','Pune');
+END $$
+CALL que5();
+***********************************************************************************************************
+6.Write a program that declares an integer variable called num, assigns a value to it and print, the value 
+of the variable itself, its square, and its cube.
+
+delimiter $$
+create procedure Integerval2(IN num int)
+BEGIN
+DECLARE  num int default 4;
+DECLARE c int ;
+SET c=num*num;
+select c;
+select c=num*num*num;
+select c;
+END $$
+call Integerval2(2);
+**************************************************************************************************************
+7.Write a program that declares an integer variable assign a value to it and display it using OUT parameter
+delimiter $$
+create procedure assvalue(out var int)
+begin 
+DECLARE num int;
+set num=50;
+select num into var;
+end$$
+call assvalue(@val);
+
+select @val;
+
+*************************************************************************************************************
+8.Write a program that demonstrates the usage of IN and OUT parameters.
+/* EXAMPLE OF IN PARAMETER */
+delimiter $$
+create procedure my_proc_IN ( IN var1 INT)
+BEGIN 
+select * from emp LIMIT var1;
+END $$
+call my_proc_IN(3)
+
+/* without IN  IN IS OPTIONAL YOU CAN WRITE */
+delimiter $$
+create procedure my_proc1_IN ( var1 INT)
+BEGIN 
+select * from emp LIMIT var1;
+END $$
+call my_proc_IN(3)
+
+/* EXAMPLE OF OUT PARAMETER */
+use StoredProcedure;
+select * from emp;
+delimiter $$
+CREATE PROCEDURE my_proc_OUT (OUT highest_salary INT) 
+BEGIN
+SELECT MAX(SAL) INTO highest_salary FROM EMP
+END $$ 
+CALL my_proc_OUT(@Max)
+select @Max;
+***********************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
