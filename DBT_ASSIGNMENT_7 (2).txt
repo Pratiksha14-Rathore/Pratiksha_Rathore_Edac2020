@@ -1,0 +1,60 @@
+************************ASSIGNMENT7****************************************
+create database Assignment7
+use Assignment7;
+create table  Ord_master(Ord_no int,  Cust_cd varchar(20),Status varchar(20));
+desc Ord_master
+insert into Ord_master(Ord_no,Cust_cd,Status)values(1,"C1","P");
+select * from Ord_master
+create table  Ord_dtl(Ord_no int, Prod_cd varchar(20),Qty int);
+insert into Ord_dtl(Ord_no,Prod_cd,Qty)values(1,"P1",100);
+insert into Ord_dtl(Ord_no,Prod_cd,Qty)values(1,"P2",200);
+select * from  Ord_dtl
+create table  Prod_master(Prod_cd varchar(20),Prod_name varchar(20),Qty_in_stock int,Booked_qty int);
+desc Prod_master
+insert into Prod_master(Prod_cd,Prod_name,Qty_in_stock,Booked_qty)values("P1","Floppies",10000,1000);
+insert into Prod_master(Prod_cd,Prod_name,Qty_in_stock,Booked_qty)values("P1","Floppies",10000,1000);
+insert into Prod_master(Prod_cd,Prod_name,Qty_in_stock,Booked_qty)values("P2","Printers",5000,600);
+insert into Prod_master(Prod_cd,Prod_name,Qty_in_stock,Booked_qty)values("P3","Modems",3000,200);
+select * from Prod_master
+
+/* 1. Write a Before Insert trigger on Ord_dtl. Anytime a row is inserted in Ord_dtl, the
+Booked_qty in Prod_master should be increased accordingly. */
+delimiter $$
+create trigger que1 Before insert 
+on Ord_dtl
+for each row
+BEGIN
+UPDATE Prod_master SET Booked_qty=Booked_qty + NEW.Qty WHERE  Prod_cd=NEW.Prod_cd;
+END$$
+insert into Ord_dtl values(1,'P3',100);
+
+
+/*2. Write a Before Delete trigger on Ord_dtl. Anytime a row is deleted from Ord_dtl, the
+Booked_qty in Prod_mastershould be decreased accordingly.*/
+delimiter $$
+create trigger que2
+Before Delete 
+on Ord_dtl
+for each row
+Begin 
+UPDATE Prod_master SET Booked_qty=Booked_qty - OLD.Qty WHERE  Prod_cd=OLD.Prod_cd;
+END$$
+select * from Ord_dtl
+UPDATE Prod_master SET Booked_qty=Booked_qty - OLD.Qty WHERE  Prod_cd=OLD.Prod_cd;
+END$$
+
+
+/* 3. write A trigger to update the total salary of a department in dept_sal  table  when an employee is added or removed from  emp table */
+
+CREATE TABLE dept_sal (dept_no INT , total_salary INT4); 
+INSERT INTO DEPT_SAL VALUES(30,1950),(10,12000)
+create table emp(emp_id int,empname varchar(20));
+insert into emp(emp_id,empname)values(1,"Pratiksha");
+SELECT * FROM EMP;
+SELECT * FROM DEPT_SAL;
+delimiter $$
+CREATE TRIGGER QUE3 AFTER INSERT ON EMP
+FOR EACH ROW
+BEGIN
+UPDATE DEPT_SAL SET tota_salary=tota_salary + NEW.SAL WHERE DEPT_NO=NEW.DEPTNO;
+END$$
